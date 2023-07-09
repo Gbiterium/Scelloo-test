@@ -66,7 +66,7 @@
               @row-selected="onRowSelected"
             >
               <!-- select-mode="single" -->
-              <template #head(checkbox)="data">
+              <!-- <template #head(checkbox)="data">
                 <b-form-checkbox
                   style="padding-left: 10px"
                   ref="tableCheckbox"
@@ -74,7 +74,7 @@
                   @change="toggleSelectAll"
                 >
                 </b-form-checkbox>
-              </template>
+              </template> -->
               <template #cell(checkbox)="rowData">
                 <b-form-checkbox
                   style="padding-left: 10px"
@@ -85,11 +85,12 @@
                 </b-form-checkbox>
               </template>
               <template #cell(expand)="data">
-                <b-icon-arrow-down-circle
+                <b-icon
+                 :icon="data.detailsShowing ? 'arrow-up-circle' : 'arrow-down-circle'"
                   class="text-primary"
                   @click="data.toggleDetails"
                 >
-                </b-icon-arrow-down-circle>
+                </b-icon>
               </template>
               <template #row-details="data">
                 <b-table
@@ -204,7 +205,7 @@ export default {
       selectedRow: null,
       fields: [
         {
-          key: "checkbox",
+          key: "checkbox", label: ''
         },
         {
           key: "expand",
@@ -329,7 +330,8 @@ export default {
       });
     },
     toggleRowSelection(rowData) {
-      this.selectedRow = rowData.rowSelected ? rowData.item : null;
+    //   this.selectedRow = rowData.rowSelected ? rowData.item : null;
+    rowData.rowSelected = !rowData.rowSelected;
     },
     pay() {
       if (this.selected) {

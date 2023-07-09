@@ -83,8 +83,6 @@ th {
   overflow: auto;
   font-weight: 500;
 }
-.custom-card-tabs .nav-item {
-}
 .custom-card-tabs .nav-link {
   font-size: 14px;
   line-height: 100%;
@@ -96,9 +94,6 @@ th {
 .custom-card-tabs .nav-link.active {
   color: #25213B;
   border-bottom: 2px solid #25213B;
-}
-.user-table .table {
-  margin-bottom: 0px !important;
 }
 .filter .btn {
   padding: 0 !important;
