@@ -6,24 +6,18 @@
     >
       <div class="card border-0 shadow">
         <div class="d-flex align-items-center justify-content-between p-3">
-          <div class="d-flex align-items-center filter">
-            <b-dropdown  variant="link" toggle-class="text-decoration-none" no-caret>
-    <template #button-content>
-        <div class="p-2 border-1 pointer">
+          <div class="d-flex align-items-center">
+            <div class="p-2 border-1 pointer" data-toggle="dropdown">
               <b-icon-funnel-fill class="text-primary"></b-icon-funnel-fill>
               <span class="text-blue mx-2">Filter</span>
             </div>
-    </template>
-    <b-dropdown-item class="fs-12 text-light">Sort By:</b-dropdown-item>
-    <b-dropdown-item class="fs-14 text-blue"> <b-form-radio v-model="selected" :aria-describedby="ariaDescribedby" name="some-radios" value="A">Default</b-form-radio></b-dropdown-item>
-    <b-dropdown-item class="fs-14 text-blue"> <b-form-radio v-model="selected" :aria-describedby="ariaDescribedby" name="some-radios" value="A">First Name</b-form-radio></b-dropdown-item>
-    <b-dropdown-item class="fs-14 text-blue"> <b-form-radio v-model="selected" :aria-describedby="ariaDescribedby" name="some-radios" value="A">Last Name</b-form-radio></b-dropdown-item>
-    <b-dropdown-item class="fs-14 text-blue"> <b-form-radio v-model="selected" :aria-describedby="ariaDescribedby" name="some-radios" value="A">Email</b-form-radio></b-dropdown-item>
-  </b-dropdown>
-            <!-- <div class="p-2 border-1 pointer">
-              <b-icon-funnel-fill class="text-primary"></b-icon-funnel-fill>
-              <span class="text-blue mx-2">Filter</span>
-            </div> -->
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <div class="dropdown-item text-light fs-12">Sort By:</div>
+    <a class="dropdown-item text-blue fs-14 pointer" @click.prevent="resetSort">Default</a>
+    <a class="dropdown-item text-blue fs-14 pointer" @click.prevent="sortByFirstName">First Name</a>
+    <a class="dropdown-item text-blue fs-14 pointer" @click.prevent="sortByLastName">Last Name</a>
+    <a class="dropdown-item text-blue pointer fs-14" @click.prevent="sortByEmail">Email</a>
+  </div>
             <div class="search-input">
               <input
                 type="search"
@@ -240,6 +234,53 @@ export default {
   },
   methods: {
     ...mapActions(["setTableData"]),
+    resetSort() {
+        this.data =
+          this.selectedTab === "Paid"
+            ? this.paid
+            : this.selectedTab === "Unpaid"
+            ? this.unpaid
+            : this.selectedTab === "Overdue"
+            ? this.overdue
+            : this.getData;
+    },
+    sortByFirstName() {
+        const sortedData = [...this.data]
+        sortedData.sort((a, b) => {
+        const [aFirstName, aLastName] = a.name.split(" ");
+        const [bFirstName, bLastName] = b.name.split(" ");
+        
+        if (aFirstName === bFirstName) {
+          return aLastName.localeCompare(bLastName);
+        } else {
+          return aFirstName.localeCompare(bFirstName);
+        }
+      });
+      this.data = sortedData
+    },
+    sortByLastName() {
+        const sortedData = [...this.data]
+        sortedData.sort((a, b) => {
+        const [aFirstName, aLastName] = a.name.split(" ");
+        const [bFirstName, bLastName] = b.name.split(" ");
+        
+        if (aLastName === bLastName) {
+          return aFirstName.localeCompare(bFirstName);
+        } else {
+          return aLastName.localeCompare(bLastName);
+        }
+      });
+      this.data = sortedData
+    },
+    sortByEmail() {
+        const sortedData = [...this.data]
+        sortedData.sort((a, b) => {
+        const emailA = a.email.toLowerCase();
+        const emailB = b.email.toLowerCase();
+          return emailA.localeCompare(emailB);
+      });
+      this.data = sortedData
+    },
     handleOnSelectTab(e) {
       this.selectedTab = e;
       if (e === "All") {
