@@ -12,12 +12,28 @@
               <span class="text-blue mx-2">Filter</span>
             </div>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <div class="dropdown-item text-light fs-12">Sort By:</div>
-    <a class="dropdown-item text-blue fs-14 pointer" @click.prevent="resetSort">Default</a>
-    <a class="dropdown-item text-blue fs-14 pointer" @click.prevent="sortByFirstName">First Name</a>
-    <a class="dropdown-item text-blue fs-14 pointer" @click.prevent="sortByLastName">Last Name</a>
-    <a class="dropdown-item text-blue pointer fs-14" @click.prevent="sortByEmail">Email</a>
-  </div>
+              <div class="dropdown-header text-light fs-12">Sort By:</div>
+              <a
+                class="dropdown-item text-blue fs-14 pointer"
+                @click.prevent="resetSort"
+                >Default</a
+              >
+              <a
+                class="dropdown-item text-blue fs-14 pointer"
+                @click.prevent="sortByFirstName"
+                >First Name</a
+              >
+              <a
+                class="dropdown-item text-blue fs-14 pointer"
+                @click.prevent="sortByLastName"
+                >Last Name</a
+              >
+              <a
+                class="dropdown-item text-blue pointer fs-14"
+                @click.prevent="sortByEmail"
+                >Email</a
+              >
+            </div>
             <div class="search-input">
               <input
                 type="search"
@@ -30,24 +46,41 @@
               ></b-icon-search>
             </div>
           </div>
-          <button class="btn-primary text-uppercase">Pay Dues</button>
+          <button class="btn-primary text-uppercase" @click.prevent="pay">
+            Pay Dues
+          </button>
         </div>
         <template v-for="(tab, index) in ['All', 'Paid', 'Unpaid', 'Overdue']">
           <UtilsCardTab :key="index" :title="tab">
-            <b-table hover responsive show-empty :fields="fields" :items="data">
+            <b-table
+              hover
+              responsive
+              selectable
+              show-empty
+              :selected.sync="selectedRow"
+              :selected-variant="'primary'"
+              :fields="fields"
+              :items="data"
+              class="custom-table"
+              table-class="custom-table"
+              @row-selected="onRowSelected"
+            >
+              <!-- select-mode="single" -->
               <template #head(checkbox)="data">
                 <b-form-checkbox
                   style="padding-left: 10px"
-                  ref="form-checkbox"
-                  :checked="data.rowSelected"
+                  ref="tableCheckbox"
+                  v-model="selectAll"
+                  @change="toggleSelectAll"
                 >
                 </b-form-checkbox>
               </template>
-              <template #cell(checkbox)="data">
+              <template #cell(checkbox)="rowData">
                 <b-form-checkbox
                   style="padding-left: 10px"
                   ref="form-checkbox"
-                  :checked="data.rowSelected"
+                  v-model="rowData.rowSelected"
+                  @change="toggleRowSelection(rowData)"
                 >
                 </b-form-checkbox>
               </template>
@@ -108,7 +141,7 @@
               <template #cell(user_status)="data">
                 <div style="width: 14rem">
                   <div
-                    class="text-capitalize p-1 d-flex align-items-center"
+                    class="text-capitalize p-1 d-flex align-items-center justify-content-center"
                     :class="[data.value === 'active' ? 'active' : 'inactive']"
                   >
                     <b-icon-circle-fill class="fs-6"></b-icon-circle-fill>
@@ -121,7 +154,7 @@
               </template>
               <template #cell(payment_status)="data">
                 <div
-                  class="text-capitalize p-1 d-flex align-items-center"
+                  class="text-capitalize p-1 d-flex align-items-center justify-content-center"
                   :class="[
                     data.value === 'paid'
                       ? 'badge'
@@ -155,6 +188,7 @@
 import UtilsBaseCardTab from "../components/Utils/BaseCardTab.vue";
 import UtilsCardTab from "../components/Utils/CardTab.vue";
 import { mapGetters, mapActions } from "vuex";
+import jsonData from "../assets/data.json";
 export default {
   components: {
     UtilsBaseCardTab,
@@ -165,7 +199,9 @@ export default {
       search: "",
       data: [],
       selectedTab: "",
-      selected: '',
+      selected: [],
+      selectAll: false,
+      selectedRow: null,
       fields: [
         {
           key: "checkbox",
@@ -221,8 +257,10 @@ export default {
             ? this.overdue
             : this.getData;
       } else {
-        const filteredResult = this.data.filter((el) =>
-          el.name.toLowerCase().includes(val) || el.email.toLowerCase().includes(val)
+        const filteredResult = this.data.filter(
+          (el) =>
+            el.name.toLowerCase().includes(val) ||
+            el.email.toLowerCase().includes(val)
         );
         this.data = filteredResult;
       }
@@ -234,52 +272,71 @@ export default {
   },
   methods: {
     ...mapActions(["setTableData"]),
+    onRowSelected(item) {
+      this.selected = item;
+      console.log(item);
+    },
     resetSort() {
-        this.data =
-          this.selectedTab === "Paid"
-            ? this.paid
-            : this.selectedTab === "Unpaid"
-            ? this.unpaid
-            : this.selectedTab === "Overdue"
-            ? this.overdue
-            : this.getData;
+      this.data =
+        this.selectedTab === "Paid"
+          ? this.paid
+          : this.selectedTab === "Unpaid"
+          ? this.unpaid
+          : this.selectedTab === "Overdue"
+          ? this.overdue
+          : this.getData;
     },
     sortByFirstName() {
-        const sortedData = [...this.data]
-        sortedData.sort((a, b) => {
+      const sortedData = [...this.data];
+      sortedData.sort((a, b) => {
         const [aFirstName, aLastName] = a.name.split(" ");
         const [bFirstName, bLastName] = b.name.split(" ");
-        
+
         if (aFirstName === bFirstName) {
           return aLastName.localeCompare(bLastName);
         } else {
           return aFirstName.localeCompare(bFirstName);
         }
       });
-      this.data = sortedData
+      this.data = sortedData;
     },
     sortByLastName() {
-        const sortedData = [...this.data]
-        sortedData.sort((a, b) => {
+      const sortedData = [...this.data];
+      sortedData.sort((a, b) => {
         const [aFirstName, aLastName] = a.name.split(" ");
         const [bFirstName, bLastName] = b.name.split(" ");
-        
+
         if (aLastName === bLastName) {
           return aFirstName.localeCompare(bFirstName);
         } else {
           return aLastName.localeCompare(bLastName);
         }
       });
-      this.data = sortedData
+      this.data = sortedData;
     },
     sortByEmail() {
-        const sortedData = [...this.data]
-        sortedData.sort((a, b) => {
+      const sortedData = [...this.data];
+      sortedData.sort((a, b) => {
         const emailA = a.email.toLowerCase();
         const emailB = b.email.toLowerCase();
-          return emailA.localeCompare(emailB);
+        return emailA.localeCompare(emailB);
       });
-      this.data = sortedData
+      this.data = sortedData;
+    },
+    toggleSelectAll() {
+      this.data.forEach((item) => {
+        item.rowSelected = this.selectAll;
+      });
+    },
+    toggleRowSelection(rowData) {
+      this.selectedRow = rowData.rowSelected ? rowData.item : null;
+    },
+    pay() {
+      if (this.selected) {
+        this.selected.forEach((el) => {
+          el.payment_status = "paid";
+        });
+      }
     },
     handleOnSelectTab(e) {
       this.selectedTab = e;
@@ -348,5 +405,8 @@ export default {
   top: 50%;
   left: 25px;
   transform: translateY(-50%) !important;
+}
+.dropdown-item:hover {
+  background: #f2f0f9 !important;
 }
 </style>
