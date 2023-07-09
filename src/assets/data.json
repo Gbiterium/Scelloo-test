@@ -1,0 +1,62 @@
+[
+  {
+    "checkbox": "",
+    "name": "Dickerson James",
+    "email": "hey@gmail.com",
+    "user_status": "active",
+    "payment_status": "paid",
+    "amount": "400",
+    "last_login": "14/APR/2022",
+    "payment_date": "08/JUL/2023",
+    "details": [{
+      "date": "15/JUN/2023",
+      "user_activity": "Login and make payment",
+      "details": "paid through remitta"
+    }]
+  },
+  {
+    "checkbox": "",
+    "name": "Larsen Alex",
+    "email": "kkkooo@gmail.com",
+    "user_status": "inactive",
+    "payment_status": "unpaid",
+    "amount": "800",
+    "last_login": "14/APR/2022",
+    "payment_date": "08/JUL/2023",
+    "details": [{
+      "date": "15/JUN/2023",
+      "user_activity": "Login and make payment",
+      "details": "paid through remitta"
+    }]
+  },
+  {
+    "checkbox": "",
+    "name": "Geneva Jamie",
+    "email": "kay@gmail.com",
+    "user_status": "active",
+    "payment_status": "overdue",
+    "amount": "150",
+    "last_login": "14/APR/2022",
+    "payment_date": "08/JUL/2023",
+    "details": [{
+      "date": "15/JUN/2023",
+      "user_activity": "Login and make payment",
+      "details": "paid through remitta"
+    }]
+  },
+  {
+    "checkbox": "",
+    "name": "Jami Marcus",
+    "email": "hey@gmail.com",
+    "user_status": "inactive",
+    "payment_status": "paid",
+    "amount": "280",
+    "last_login": "14/APR/2022",
+    "payment_date": "08/JUL/2023",
+    "details": [{
+      "date": "15/JUN/2023",
+      "user_activity": "Login and make payment",
+      "details": "paid through remitta"
+    }]
+  }
+]

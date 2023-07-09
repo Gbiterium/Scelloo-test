@@ -1,0 +1,99 @@
+body {
+    background: #F2F0F9;
+  font-size: 16px;
+  font-weight: 400;
+}
+th {
+    background: #F4F2FF !important;
+    font-size: 12px !important;
+    color: #6E6893 !important;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
+  }
+  td, th {
+    vertical-align: middle;
+  }
+  .fs-6 {
+    font-size: 6px !important;
+  }
+  .fs-12 {
+    font-size: 12px !important;
+  }
+  .fs-14 {
+    font-size: 14px !important;
+  }
+  .fs-18 {
+    font-size: 18px !important;
+  }
+  .fs-20 {
+    font-size: 20px !important;
+  }
+  .font-weight-medium {
+    font-weight: 500;
+  }
+  .font-weight-bold {
+    font-weight: 600;
+  }
+  .text-primary {
+    color: #8B83BA !important;
+  }
+  .text-blue {
+    color: #25213B;
+  }
+  .text-light {
+    color: #6E6893 !important;
+  }
+  .text-right {
+    text-align: right;
+  }
+  .border-1 {
+    border: 1px solid #C6C2DE;
+    border-radius: 5px;
+  }
+  .pointer {
+    cursor: pointer;
+  }
+  .bg-primary {
+    background: #F4F2FF !important;
+  }
+  .btn-primary {
+    background: #6D5BD0 !important;
+    color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid #6D5BD0;
+    padding: 8px;
+  }
+  /* Navs and Tabs */
+.custom-card-tabs.nav,
+.custom-card-tabs .nav {
+  /* padding: 0 0.25rem; */
+  border-bottom: 1px solid #C6C2DE;
+  flex-wrap: nowrap;
+  overflow: auto;
+  font-weight: 500;
+}
+.custom-card-tabs .nav-item {
+}
+.custom-card-tabs .nav-link {
+  font-size: 14px;
+  line-height: 100%;
+  color: #6E6893;
+  padding: 0.8rem 0;
+  margin: 0 1rem;
+  white-space: nowrap;
+}
+.custom-card-tabs .nav-link.active {
+  color: #25213B;
+  border-bottom: 2px solid #25213B;
+}
+.user-table .table {
+  margin-bottom: 0px !important;
+}
+.filter .btn {
+  padding: 0 !important;
+  font-size: 14px !important;
+}
