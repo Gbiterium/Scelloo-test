@@ -275,7 +275,6 @@ export default {
     ...mapActions(["setTableData"]),
     onRowSelected(item) {
       this.selected = item;
-      console.log(item);
     },
     resetSort() {
       this.data =

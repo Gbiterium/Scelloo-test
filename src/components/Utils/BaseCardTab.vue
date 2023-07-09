@@ -59,11 +59,6 @@ export default {
         if (index === tabIndex) {
           // debugger
           this.$emit('tab-selected',control.title);
-          this.$router.replace({
-            query: {
-              tab: index,
-            },
-          })
         }
       })
       // console.log(this.tabs)
